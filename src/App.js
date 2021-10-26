@@ -1,25 +1,30 @@
-import logo from './logo.svg';
+import React, {  useContext } from 'react';
 import './App.css';
 
+import ProtectedRoute from './views/ProtectedRoute/ProtectedRoute';
+import Formulario from './components/Formulario/index';
+import Home from './views/Home/index';
+import Navigation from './components/Navbar';
+
+import {
+  Switch,
+  Route
+} from 'react-router-dom';
+
+import { DataContext } from './context/DataContext';
+
 function App() {
+  const { isLogged } = useContext( DataContext );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <div className="App">
+      <Navigation></Navigation>
+      <Switch>
+          <Route path="/" component={ Formulario } exact/>
+          <ProtectedRoute path="/home" component={Home} isLogged={isLogged} />
+      </Switch>
+      </div>
+);
 }
 
 export default App;
